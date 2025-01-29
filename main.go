@@ -6,6 +6,8 @@ import (
 )
 
 func main() {
+	
+	config.LoadEnv()
 	// Iniciar la conexión a la base de datos
 	config.InitDB()
 
