@@ -13,21 +13,22 @@ import (
 var DB *sql.DB
 
 func InitDB() {
-	// Cargar variables de entorno
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error cargando el archivo .env")
-	}
+		// Definir manualmente las variables de entorno
+	os.Setenv("DB_USER", "admin")
+	os.Setenv("DB_PASSWORD", "Hola1244")
+	os.Setenv("DB_HOST", "18.212.223.216")
+	os.Setenv("DB_NAME", "reservation_db")
 
-	// Construir DSN con variables seguras
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s",
-		os.Getenv("DB_USER"),
-		os.Getenv("DB_PASSWORD"),
-		os.Getenv("DB_HOST"),
-		os.Getenv("DB_PORT"),
-		os.Getenv("DB_NAME"),
-	)
+	// Obtener las variables
+	dbUser := os.Getenv("DB_USER")
+	dbPassword := os.Getenv("DB_PASSWORD")
+	dbHost := os.Getenv("DB_HOST")
+	dbName := os.Getenv("DB_NAME")
 
+	// Construir la cadena de conexión
+	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s", dbUser, dbPassword, dbHost, dbName)
+
+	var err error
 	DB, err = sql.Open("mysql", dsn)
 	if err != nil {
 		log.Fatal("Error al conectar a la base de datos:", err)
